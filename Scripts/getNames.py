@@ -84,6 +84,6 @@ print()
 
 
 print("saving the data in json format...")
-with open("full-company-list.json", "w") as outfile:
+with open("data/full-company-list.json", "w") as outfile:
     json.dump(fulldata, outfile)
 print("completed!")

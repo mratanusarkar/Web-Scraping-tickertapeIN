@@ -135,7 +135,7 @@ def scrapeTickertape(name, stocktype, subdirectory):
 allcompanies = []
 print("loading full-company-list.json")
 try:    
-    with open('full-company-list.json', 'r') as fp:
+    with open('data/full-company-list.json', 'r') as fp:
         allcompanies = json.load(fp)
 except Exception as _e:
     print(_e)
@@ -172,6 +172,6 @@ print("total time taken:", str(timedelta(seconds=(end_time - start_time))))
 print()
 
 print("saving the data in json format...")
-with open("all-etfs-tickertape-data.json", "w") as outfile:
+with open("data/all-etfs-tickertape-data.json", "w") as outfile:
     json.dump(allETFsData, outfile)
 print("completed!")
