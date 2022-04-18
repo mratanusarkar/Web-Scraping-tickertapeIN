@@ -18,7 +18,7 @@ def getNames(url_filter):
     def __get_filtered_html_blocks_list(htmlBlock):
         filtered_html_blocks_list = []
         for block in htmlBlock:
-            if filter_data_list_fn(block):
+            if __filter_data_list_fn(block):
                 filtered_html_blocks_list.append(block)
         return filtered_html_blocks_list
     

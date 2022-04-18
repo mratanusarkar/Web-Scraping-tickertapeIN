@@ -35,7 +35,7 @@ def scrapeTickertape(name, stocktype, subdirectory):
 
         # tracking
         _htmlBlock = _soup.find("p", class_="mb12")
-        _data["tracking"] = _htmlBlock.text if htmlBlock is not None else None
+        _data["tracking"] = _htmlBlock.text if _htmlBlock is not None else None
 
         # current price
         _htmlBlock = _soup.find("span", class_="current-price")
@@ -71,7 +71,7 @@ def scrapeTickertape(name, stocktype, subdirectory):
 
         # tracking
         _htmlBlock = _soup.find("p", class_="mb12")
-        _data["tracking"] = _htmlBlock.text if htmlBlock is not None else None
+        _data["tracking"] = _htmlBlock.text if _htmlBlock is not None else None
 
         # marketcap, sector and risk
         _htmlBlock = _soup.find("div", class_="stock-labels")
