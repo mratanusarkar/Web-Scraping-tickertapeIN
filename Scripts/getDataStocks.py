@@ -29,6 +29,9 @@ def scrapeTickertape(name, stocktype, subdirectory):
         # ticker name
         _htmlBlock = _soup.find("span", class_="ticker")
         _data["ticker"] = _htmlBlock.text if _htmlBlock is not None else None
+        
+        # url
+        _data["url"] = _url
 
         # type
         _data["type"] = stocktype
