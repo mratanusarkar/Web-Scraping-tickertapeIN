@@ -1,4 +1,4 @@
-from scraper_engine.list import TickerNames
+from tickertapein.scraper_engine.list import TickerNames
 import json
 import time
 import os
@@ -10,7 +10,7 @@ data = scraper.scrape()
 print("saving the data in json format...")
 
 filename = "list_" + time.strftime("%Y_%m_%d_%H_%M_%S") + ".json"
-dirpath = os.path.abspath("./data/Lists/")
+dirpath = os.path.abspath("./tickertapein/data/Lists/")
 filepath = os.path.join(dirpath, filename)
 
 with open(filepath, "w") as outfile:
