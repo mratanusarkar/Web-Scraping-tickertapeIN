@@ -81,7 +81,7 @@ class TickerNames:
             print(e)
             return []
     
-    def scrape(self) -> list[dict]:
+    def scrape(self) -> list:
         # let's scrape all the pages!
         fulldata = []
         page_list = self.page_list
@@ -91,7 +91,7 @@ class TickerNames:
             if self.log:
                 print("scraping page: " + self.URL + "?filter=" + page)
             else:
-                print('.', end='')
+                print('.', end='', flush=True)
                 
             try:
                 # get data from each page and append to data list

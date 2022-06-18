@@ -3,7 +3,7 @@ import json
 import time
 
 
-scraper = TickerNames(page_list=TickerNames.PAGE_LIST_ALL, include_type=TickerNames.TYPE_ALL, log=True)
+scraper = TickerNames(page_list=TickerNames.PAGE_LIST_ALL, include_type=TickerNames.TYPE_ALL)
 data = scraper.scrape()
 
 print("saving the data in json format...")
