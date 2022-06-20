@@ -12,10 +12,9 @@ class DataSaver:
     FILE_FORMAT_JSON = "json"
     FILE_FORMAT_TEXT = "txt"
 
-    def __init__(self, scrape_type: str = "", file_format: str = "json", log: bool = False):
-        self.log = log
-        self.scrape_type = scrape_type
+    def __init__(self, file_format: str = "json", log: bool = False):
         self.file_format = file_format
+        self.log = log
 
     def get_paths(self, scrape_type):
         if scrape_type == self.SCRAPE_TYPE_LIST:
@@ -35,10 +34,6 @@ class DataSaver:
         return dir_path, file_path, file_name
 
     def save(self, data, scrape_type: str):
-        if scrape_type == "":
-            print("scrape_type not declared. operation failed!")
-            return
-
         if self.log:
             print("saving the data in " + self.file_format + " file format...")
 
@@ -56,9 +51,6 @@ class DataSaver:
 
         if self.log:
             print("data saved successfully!")
-
-    def save(self, data):
-        self.save(data, self.scrape_type)
 
     def clear(self, scrape_type: str):
         # TODO: delete saved data and update track.json
