@@ -19,13 +19,13 @@ class DataSaver:
     def get_paths(self, scrape_type):
         if scrape_type == self.SCRAPE_TYPE_LIST:
             file_name = self.SCRAPE_TYPE_LIST + "_" + time.strftime("%Y_%m_%d_%H_%M_%S") + "." + self.file_format
-            dir_path = os.path.abspath("../data/Lists")
+            dir_path = os.path.abspath("./tickertapein/data/Lists")
         elif scrape_type == self.SCRAPE_TYPE_STOCK:
             file_name = self.SCRAPE_TYPE_STOCK + "_" + time.strftime("%Y_%m_%d_%H_%M_%S") + "." + self.file_format
-            dir_path = os.path.abspath("../data/Stocks")
+            dir_path = os.path.abspath("./tickertapein/data/Stocks")
         elif scrape_type == self.SCRAPE_TYPE_ETF:
             file_name = self.SCRAPE_TYPE_ETF + "_" + time.strftime("%Y_%m_%d_%H_%M_%S") + "." + self.file_format
-            dir_path = os.path.abspath("../data/ETFs")
+            dir_path = os.path.abspath("./tickertapein/data/ETFs")
         else:
             file_name = ""
             dir_path = ""
@@ -45,7 +45,7 @@ class DataSaver:
 
         # save log for tracking
         # TODO: type of data, pages, ticker type, count, datetime
-        data = file_name
+        data = {"datetime": time.strftime("%d-%m-%Y %I:%M:%S %p"), "scrape_type": scrape_type, "file_name": file_name}
         with open(dir_path + "/track.json", "w") as outfile:
             json.dump(data, outfile)
 
