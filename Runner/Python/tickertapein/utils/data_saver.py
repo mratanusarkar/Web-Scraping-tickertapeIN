@@ -1,5 +1,6 @@
 import json
 import time
+import glob
 import os
 
 
@@ -52,13 +53,33 @@ class DataSaver:
         if self.log:
             print("data saved successfully!")
 
-    def clear(self, scrape_type: str):
-        # TODO: delete saved data and update track.json
-        print("function clear", scrape_type)
+    def clear(self, scrape_type: str, keep_history: bool = False):
+        dir_path, _, _ = self.get_paths(scrape_type)
+        for file_path in glob.glob(dir_path + '/*'):
+            if not file_path.split('/')[-1] == 'track.json':
+                os.remove(file_path)
+                if self.log:
+                    print('removing: ' + file_path)
+                else:
+                    print('.', end='', flush=True)
+        if not keep_history:
+            with open(dir_path + "/track.json", "w") as outfile:
+                json.dump({}, outfile)
+        if self.log:
+            print('cleared all past ' + scrape_type + ' data successfully!')
 
-    def clear_all(self):
-        # TODO: delete all saved data from all 3 folders and update all the track.json files
-        print("function clear_all")
+    def clear_all(self, keep_history: bool = False):
+        dir_path = os.path.abspath("./tickertapein/data")
+        dir_to_scrape_type_map = {
+            'Lists': self.SCRAPE_TYPE_LIST,
+            'Stocks': self.SCRAPE_TYPE_STOCK,
+            'ETFs': self.SCRAPE_TYPE_ETF
+        }
+        for folder_path in glob.glob(dir_path + '/*'):
+            folder = folder_path.split('/')[-1]
+            if self.log:
+                print('clearing ' + folder + ' ...')
+            self.clear(dir_to_scrape_type_map[folder], keep_history)
 
     def check(self) -> bool:
         # TODO: check history if past data is present
