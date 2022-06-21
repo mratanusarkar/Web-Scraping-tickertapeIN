@@ -6,7 +6,7 @@ from datetime import timedelta
 
 class TickerNames:
 
-    URL = "https://www.tickertape.in/stocks"
+    BASE_URL = "https://www.tickertape.in"
 
     PAGE_LIST_ALL = list("abcdefghijklmnopqrstuvwxyz") + ["others"]
     PAGE_LIST_TOP = ["top"]
@@ -29,7 +29,7 @@ class TickerNames:
         header = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36"
         }
-        response = requests.get(self.URL + "?filter=" + url_filter, headers=header)
+        response = requests.get(self.BASE_URL + "/stocks?filter=" + url_filter, headers=header)
 
         # give the webpage to Beautiful Soup using parsers: "html.parser" or "lxml"
         soup = BeautifulSoup(response.text, 'lxml')
@@ -56,7 +56,8 @@ class TickerNames:
             data_obj = {
                 "name": block.a.text,
                 "type": block.a['href'].split('/')[1],
-                "subdirectory": block.a['href'].split('/')[2]
+                "subdirectory": block.a['href'].split('/')[2],
+                "url": self.BASE_URL + block.a['href']
             }
             if self.type == self.TYPE_ALL or self.type == data_obj['type']:
                 data_list.append(data_obj)
@@ -89,7 +90,7 @@ class TickerNames:
         start_time = time.time()
         for page in page_list:
             if self.log:
-                print("scraping page: " + self.URL + "?filter=" + page)
+                print("scraping page: " + self.BASE_URL + "/stocks?filter=" + page)
             else:
                 print('.', end='', flush=True)
                 
