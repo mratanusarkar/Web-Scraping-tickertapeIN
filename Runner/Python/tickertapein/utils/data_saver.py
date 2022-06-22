@@ -14,6 +14,16 @@ class DataSaver:
     FILE_FORMAT_TEXT = "txt"
 
     def __init__(self, file_format: str = "json", log: bool = False):
+        self.dir_to_scrape_type_map = {
+            'Lists': self.SCRAPE_TYPE_LIST,
+            'Stocks': self.SCRAPE_TYPE_STOCK,
+            'ETFs': self.SCRAPE_TYPE_ETF
+        }
+        self.scrape_type_to_dir_map = {
+            self.SCRAPE_TYPE_LIST: 'Lists',
+            self.SCRAPE_TYPE_STOCK: 'Stocks',
+            self.SCRAPE_TYPE_ETF: 'ETFs'
+        }
         self.file_format = file_format
         self.log = log
 
@@ -70,17 +80,16 @@ class DataSaver:
 
     def clear_all(self, keep_history: bool = False):
         dir_path = os.path.abspath("./tickertapein/data")
-        dir_to_scrape_type_map = {
-            'Lists': self.SCRAPE_TYPE_LIST,
-            'Stocks': self.SCRAPE_TYPE_STOCK,
-            'ETFs': self.SCRAPE_TYPE_ETF
-        }
         for folder_path in glob.glob(dir_path + '/*'):
             folder = folder_path.split('/')[-1]
             if self.log:
                 print('clearing ' + folder + ' ...')
-            self.clear(dir_to_scrape_type_map[folder], keep_history)
+            self.clear(self.dir_to_scrape_type_map[folder], keep_history)
 
-    def check(self) -> bool:
-        # TODO: check history if past data is present
-        print("function check")
+    def data_exists(self, scrape_type: str) -> bool:
+        root_path = os.path.abspath("./tickertapein/data")
+        dir_path = os.path.join(root_path, self.scrape_type_to_dir_map[scrape_type])
+        data_files_list = [name for name in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, name))]
+        data_files_list.remove('track.json')
+        data_count = len(data_files_list)
+        return data_count > 0
