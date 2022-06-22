@@ -19,11 +19,6 @@ class DataSaver:
             'Stocks': self.SCRAPE_TYPE_STOCK,
             'ETFs': self.SCRAPE_TYPE_ETF
         }
-        self.scrape_type_to_dir_map = {
-            self.SCRAPE_TYPE_LIST: 'Lists',
-            self.SCRAPE_TYPE_STOCK: 'Stocks',
-            self.SCRAPE_TYPE_ETF: 'ETFs'
-        }
         self.file_format = file_format
         self.log = log
 
@@ -87,9 +82,15 @@ class DataSaver:
             self.clear(self.dir_to_scrape_type_map[folder], keep_history)
 
     def data_exists(self, scrape_type: str) -> bool:
-        root_path = os.path.abspath("./tickertapein/data")
-        dir_path = os.path.join(root_path, self.scrape_type_to_dir_map[scrape_type])
+        dir_path, _, _ = self.get_paths(scrape_type)
         data_files_list = [name for name in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, name))]
         data_files_list.remove('track.json')
         data_count = len(data_files_list)
         return data_count > 0
+
+    def get_history(self, scrape_type: str) -> dict:
+        dir_path, _, _ = self.get_paths(scrape_type)
+        data = None
+        with open(dir_path + "/track.json", "r") as readfile:
+            data = json.load(readfile)
+        return data

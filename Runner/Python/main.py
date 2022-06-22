@@ -7,3 +7,21 @@ saver = DataSaver(log=True)
 
 data = scraper.scrape()
 saver.save(data, DataSaver.SCRAPE_TYPE_LIST)
+
+print(saver.data_exists(saver.SCRAPE_TYPE_LIST))
+print(saver.data_exists(saver.SCRAPE_TYPE_STOCK))
+print(saver.data_exists(saver.SCRAPE_TYPE_ETF))
+
+print(saver.get_history(saver.SCRAPE_TYPE_LIST))
+print(saver.get_history(saver.SCRAPE_TYPE_STOCK))
+print(saver.get_history(saver.SCRAPE_TYPE_ETF))
+
+saver.clear_all()
+
+print(saver.data_exists(saver.SCRAPE_TYPE_LIST))
+print(saver.data_exists(saver.SCRAPE_TYPE_STOCK))
+print(saver.data_exists(saver.SCRAPE_TYPE_ETF))
+
+print(saver.get_history(saver.SCRAPE_TYPE_LIST))
+print(saver.get_history(saver.SCRAPE_TYPE_STOCK))
+print(saver.get_history(saver.SCRAPE_TYPE_ETF))
