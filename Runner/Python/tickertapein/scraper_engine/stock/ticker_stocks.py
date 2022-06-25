@@ -158,6 +158,7 @@ class TickerStocks:
         # let's scrape all the stock data!
         fulldata = []
         count = 0
+        invalid_count = 0
 
         start_time = time.time()
         for companies in stocks_list:
@@ -166,6 +167,7 @@ class TickerStocks:
             company_dir = companies["subdirectory"]
 
             if company_type != "stocks":
+                invalid_count += 1
                 continue
             
             if self.log:
@@ -190,7 +192,9 @@ class TickerStocks:
 
         if self.log:
             print("all pages scraped successfully!")
-            print(count, "/", len(stocks_list), self.TYPE + "data scraped successfully.")
+            print(count, "/", len(stocks_list), self.TYPE, "data scraped successfully.")
+            if invalid_count > 0:
+                print(invalid_count, "other non", self.TYPE, "data found and ignored!")
             print("total time taken:", str(total_time))
         print()
         print("completed!")
