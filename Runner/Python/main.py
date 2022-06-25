@@ -1,27 +1,16 @@
 from tickertapein.scraper_engine.list import TickerNames
+from tickertapein.scraper_engine.stock import TickerStocks
 from tickertapein.utils import DataSaver
 
 
-scraper = TickerNames(page_list=TickerNames.PAGE_LIST_ALL, include_type=TickerNames.TYPE_ALL, log=True)
+names = TickerNames(page_list=TickerNames.PAGE_LIST_TOP, include_type=TickerNames.TYPE_STOCK, log=True)
+stock = TickerStocks(log=True)
 saver = DataSaver(log=True)
 
-data = scraper.scrape()
-saver.save(data, DataSaver.SCRAPE_TYPE_LIST)
+stocks_list = names.scrape()
+saver.save(stocks_list, saver.SCRAPE_TYPE_LIST)
 
-print(saver.data_exists(saver.SCRAPE_TYPE_LIST))
-print(saver.data_exists(saver.SCRAPE_TYPE_STOCK))
-print(saver.data_exists(saver.SCRAPE_TYPE_ETF))
-
-print(saver.get_history(saver.SCRAPE_TYPE_LIST))
-print(saver.get_history(saver.SCRAPE_TYPE_STOCK))
-print(saver.get_history(saver.SCRAPE_TYPE_ETF))
+data = stock.scrape(stocks_list)
+saver.save(data, saver.SCRAPE_TYPE_STOCK)
 
 saver.clear_all()
-
-print(saver.data_exists(saver.SCRAPE_TYPE_LIST))
-print(saver.data_exists(saver.SCRAPE_TYPE_STOCK))
-print(saver.data_exists(saver.SCRAPE_TYPE_ETF))
-
-print(saver.get_history(saver.SCRAPE_TYPE_LIST))
-print(saver.get_history(saver.SCRAPE_TYPE_STOCK))
-print(saver.get_history(saver.SCRAPE_TYPE_ETF))
