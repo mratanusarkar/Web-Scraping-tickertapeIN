@@ -7,6 +7,7 @@ import os
 class DataSaver:
 
     SCRAPE_TYPE_LIST = "list"
+    SCRAPE_TYPE_NAMES = "list"
     SCRAPE_TYPE_STOCK = "stock"
     SCRAPE_TYPE_ETF = "etf"
 
