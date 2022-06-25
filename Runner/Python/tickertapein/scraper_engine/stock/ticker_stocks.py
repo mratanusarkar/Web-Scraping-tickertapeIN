@@ -30,7 +30,7 @@ class TickerStocks:
 
         return soup
 
-    def get_details(self, name: str, subdirectory: str) -> dict:
+    def get_details(self, subdirectory: str) -> dict:
         try:
             # get soup
             soup = self.__getsoup(subdirectory)
@@ -111,6 +111,7 @@ class TickerStocks:
                 key = item.find("span", class_="tooltip-holder").contents[0]
                 key = key.title().replace(" ", "")
                 key = key[0].lower() + key[1:]
+                key = "redFlagSafe" if "redflag" in key.lower() else key
                 value = item.find("i")['class'][3].split("-")[1]
                 investmentChecklist[key] = value
 
