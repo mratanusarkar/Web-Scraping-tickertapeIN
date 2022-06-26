@@ -127,7 +127,8 @@ class TickerStocks:
             values = html_block.find_all("div", class_="value")
             for i in range(len(keys)):
                 key = keys[i].text
-                key = key.replace(" ", "")
+                key = key.title().replace(" ", "")
+                key = key[0].lower() + key[1:]
                 value = values[i].text
                 value = None if str(value) == "—" else str(value)
                 keyMetrics[key] = value
@@ -156,6 +157,7 @@ class TickerStocks:
     
     def scrape(self, stocks_list: list) -> list:
         # let's scrape all the stock data!
+        print("scraping stock data...")
         fulldata = []
         count = 0
         invalid_count = 0
