@@ -84,6 +84,7 @@ class TickerNames:
     
     def scrape(self) -> list:
         # let's scrape all the pages!
+        print("scraping names list...")
         fulldata = []
         page_list = self.page_list
 
@@ -115,3 +116,6 @@ class TickerNames:
 
         self.result = fulldata
         return fulldata
+
+    def filter_by_type(self, full_list, filter_type):
+        return [data for data in full_list if data['type'] == filter_type]

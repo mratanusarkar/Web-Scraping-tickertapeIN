@@ -4,22 +4,22 @@ from tickertapein.scraper_engine.etf import TickerETFs
 from tickertapein.utils import DataSaver
 
 # create all required scraper and utility objects
-all_stock_names = TickerNames(page_list=TickerNames.PAGE_LIST_ALL, include_type=TickerNames.TYPE_STOCK, log=True)
-all_etf_names = TickerNames(page_list=TickerNames.PAGE_LIST_ALL, include_type=TickerNames.TYPE_ETF, log=True)
+names = TickerNames(page_list=TickerNames.PAGE_LIST_ALL, include_type=TickerNames.TYPE_ALL, log=True)
 stock = TickerStocks(log=True)
 etf = TickerETFs(log=True)
 saver = DataSaver(log=True)
 
 # main process
-stocks_list = all_stock_names.scrape()
-etfs_list = all_etf_names.scrape()
+full_list = names.scrape()
+saver.save(full_list, saver.SCRAPE_TYPE_LIST)
 
-saver.save(stocks_list, saver.SCRAPE_TYPE_LIST)
-saver.save(etfs_list, saver.SCRAPE_TYPE_LIST)
+stocks_list = names.filter_by_type(full_list, names.TYPE_STOCK)
+etfs_list = names.filter_by_type(full_list, names.TYPE_ETF)
 
-# data = stock.scrape(stocks_list)
-# saver.save(data, saver.SCRAPE_TYPE_STOCK)
-data = etf.scrape(etfs_list)
-saver.save(data, saver.SCRAPE_TYPE_ETF)
+stock_data = stock.scrape(stocks_list)
+saver.save(stock_data, saver.SCRAPE_TYPE_STOCK)
 
-# saver.clear_all()
+etf_data = etf.scrape(etfs_list)
+saver.save(etf_data, saver.SCRAPE_TYPE_ETF)
+
+saver.clear_all()
