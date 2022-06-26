@@ -117,5 +117,5 @@ class TickerNames:
         self.result = fulldata
         return fulldata
 
-    def filter_by_type(self, full_list, filter_type):
+    def filter_by_type(self, full_list: list, filter_type: str) -> list:
         return [data for data in full_list if data['type'] == filter_type]
