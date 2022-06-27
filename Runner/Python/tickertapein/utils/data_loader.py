@@ -21,7 +21,7 @@ class DataLoader:
         }
         self.file_format = file_format
         self.log = log
-
+    
     def get_paths(self, file_name, scrape_type):
         if scrape_type == self.SCRAPE_TYPE_LIST:
             dir_path = os.path.abspath("./tickertapein/data/Lists")
@@ -34,6 +34,20 @@ class DataLoader:
 
         file_path = os.path.join(dir_path, file_name)
         return dir_path, file_path, file_name
+
+    def data_exists(self, scrape_type: str) -> bool:
+        dir_path, _, _ = self.get_paths('', scrape_type)
+        data_files_list = [name for name in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, name))]
+        data_files_list.remove('track.json')
+        data_count = len(data_files_list)
+        return data_count > 0
+
+    def get_history(self, scrape_type: str) -> dict:
+        dir_path, _, _ = self.get_paths('', scrape_type)
+        data = None
+        with open(dir_path + "/track.json", "r") as readfile:
+            data = json.load(readfile)
+        return data
 
     def load_file(self, file_name: str, scrape_type: str) -> list:
         if self.log:
@@ -51,10 +65,8 @@ class DataLoader:
         return data
 
     def load(self, scrape_type: str) -> list:
-        dir_path, _, _ = self.get_paths('', scrape_type)
         # load the history
-        with open(dir_path + "/track.json", "r") as readfile:
-            hist = json.load(readfile)
+        hist = self.get_history(scrape_type)
         if not hist:
             return []
         file_name = hist['file_name']

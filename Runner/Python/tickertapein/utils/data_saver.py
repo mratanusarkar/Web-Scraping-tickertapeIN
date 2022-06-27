@@ -42,7 +42,7 @@ class DataSaver:
 
     def save(self, data, scrape_type: str):
         if self.log:
-            print("saving the data in " + self.file_format + " file format...")
+            print("saving " + scrape_type + " data in " + self.file_format + " file format...")
 
         dir_path, file_path, file_name = self.get_paths(scrape_type)
 
@@ -82,16 +82,3 @@ class DataSaver:
                 print('clearing ' + folder + ' ...')
             self.clear(self.dir_to_scrape_type_map[folder], keep_history)
 
-    def data_exists(self, scrape_type: str) -> bool:
-        dir_path, _, _ = self.get_paths(scrape_type)
-        data_files_list = [name for name in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, name))]
-        data_files_list.remove('track.json')
-        data_count = len(data_files_list)
-        return data_count > 0
-
-    def get_history(self, scrape_type: str) -> dict:
-        dir_path, _, _ = self.get_paths(scrape_type)
-        data = None
-        with open(dir_path + "/track.json", "r") as readfile:
-            data = json.load(readfile)
-        return data
