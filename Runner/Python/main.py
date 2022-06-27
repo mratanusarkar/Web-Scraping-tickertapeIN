@@ -1,12 +1,14 @@
 from tickertapein.scraper_engine.list import TickerNames
 from tickertapein.scraper_engine.stock import TickerStocks
 from tickertapein.scraper_engine.etf import TickerETFs
+from tickertapein.utils import DataLoader
 from tickertapein.utils import DataSaver
 
 # create all required scraper and utility objects
 names = TickerNames(page_list=TickerNames.PAGE_LIST_ALL, include_type=TickerNames.TYPE_ALL, log=True)
 stock = TickerStocks(log=True)
 etf = TickerETFs(log=True)
+loader = DataLoader(log=True)
 saver = DataSaver(log=True)
 
 # main process
@@ -22,4 +24,12 @@ saver.save(stock_data, saver.SCRAPE_TYPE_STOCK)
 etf_data = etf.scrape(etfs_list)
 saver.save(etf_data, saver.SCRAPE_TYPE_ETF)
 
+print(loader.load(loader.SCRAPE_TYPE_LIST))
+print(loader.load(loader.SCRAPE_TYPE_STOCK))
+print(loader.load(loader.SCRAPE_TYPE_ETF))
+
 saver.clear_all()
+
+print(loader.load(loader.SCRAPE_TYPE_LIST))
+print(loader.load(loader.SCRAPE_TYPE_STOCK))
+print(loader.load(loader.SCRAPE_TYPE_ETF))

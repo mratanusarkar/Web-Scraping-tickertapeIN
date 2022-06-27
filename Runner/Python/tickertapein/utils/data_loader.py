@@ -35,19 +35,28 @@ class DataLoader:
         file_path = os.path.join(dir_path, file_name)
         return dir_path, file_path, file_name
 
-    def load_file(self, file_name: str, scrape_type: str) -> tuple[list, dict]:
+    def load_file(self, file_name: str, scrape_type: str) -> list:
         if self.log:
-            print("loading the data from file with " + self.file_format + " file format...")
+            print("loading " + scrape_type + " data from file with " + self.file_format + " file format...")
 
         dir_path, file_path, file_name = self.get_paths(file_name, scrape_type)
 
-        # load data and hist
+        # load data
         with open(file_path, "r") as readfile:
             data = json.load(readfile)
-        with open(dir_path + "/track.json", "r") as readfile:
-            hist = json.load(readfile)
 
         if self.log:
             print("data loaded successfully!")
             
-        return data, hist
+        return data
+
+    def load(self, scrape_type: str) -> list:
+        dir_path, _, _ = self.get_paths('', scrape_type)
+        # load the history
+        with open(dir_path + "/track.json", "r") as readfile:
+            hist = json.load(readfile)
+        if not hist:
+            return []
+        file_name = hist['file_name']
+        data = self.load_file(file_name, scrape_type)
+        return data
